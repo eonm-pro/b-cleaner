@@ -4,7 +4,8 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)]()
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)][![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Feonm-abes%2Fb-cleaner.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Feonm-abes%2Fb-cleaner?ref=badge_shield)
+()
 
 </div>
 
@@ -71,3 +72,7 @@ Then build and install b_cleaner with:
 ```sh
 pip install .
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Feonm-abes%2Fb-cleaner.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Feonm-abes%2Fb-cleaner?ref=badge_large)
