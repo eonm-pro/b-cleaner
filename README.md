@@ -6,6 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)]()
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Feonm-abes%2Fb-cleaner.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Feonm-abes%2Fb-cleaner?ref=badge_shield)
+[![Dependabot Status](https://badgen.net/dependabot/eonm-abes/b-cleaner?icon=dependabot)]()
 
 </div>
 
