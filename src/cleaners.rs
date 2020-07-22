@@ -3,6 +3,9 @@
 use std::borrow::Cow;
 use unidecode::unidecode;
 
+#[cfg(feature = "html")]
+use htmlescape;
+
 #[cfg(feature = "stem")]
 use rust_stemmers::{Algorithm, Stemmer};
 
@@ -40,6 +43,7 @@ pub trait Clean {
 /// 
 /// Cleaning process is made in this specific order :
 /// * tokens smaller than three chars are removed 
+/// * HTML entities are decoded (html features)
 /// * tokens are transformed to lowercase
 /// * tokens are unidecoded (accentued chars are replaced by their ASCII equivalent)
 /// * non ASCII char are removed
@@ -127,6 +131,9 @@ impl <'a>Clean for TextCleaner<'a> {
         self.tokens.retain(|token| !(token.len() <= token_min_lenght));
 
         self.tokens.iter_mut().for_each(|mut token| {
+            #[cfg(feature = "html")]
+            decode_token_html_entities(&mut token);
+
             token_to_lowercase(&mut token);
             unidecode_token(&mut token);
             remove_token_non_ascii_chars(&mut token);
@@ -164,6 +171,7 @@ impl <'a>Clean for TextCleaner<'a> {
 /// * subtitles are removed by spliting the title at it's first strong punctuation mark (`.`, `:`, `?`, `!`)
 /// * tokens between `(`, `)` and between `[`, `]` are removed
 /// * tokens smaller than three chars are removed 
+/// * HTML entities are decoded (html features)
 /// * tokens are transformed to lowercase
 /// * tokens are unidecoded (accentued chars are replaced by their ASCII equivalent)
 /// * non ASCII char are removed
@@ -258,6 +266,9 @@ impl <'a>Clean for TitleCleaner<'a> {
         self.tokens.retain(|token| !(token.len() <= token_min_lenght));
 
         self.tokens.iter_mut().for_each(|mut token| {
+            #[cfg(feature = "html")]
+            decode_token_html_entities(&mut token);
+
             token_to_lowercase(&mut token);
             unidecode_token(&mut token);
             remove_token_non_ascii_chars(&mut token);
@@ -291,6 +302,7 @@ impl <'a>Clean for TitleCleaner<'a> {
 /// A struct dedicated to cleaning author
 /// 
 /// Cleaning process is made in this specific order :
+/// * HTML entities are decoded (html features)
 /// * tokens are transformed to lowercase
 /// * tokens between `(`, `)` and between `[`, `]` are removed
 /// * tokens are unidecoded (accentued chars are replaced by their ASCII equivalent)
@@ -356,6 +368,9 @@ impl <'a>Clean for AuthorCleaner<'a> {
         remove_tokens_between_delimiters(&mut self.tokens, ("[", "]"));
 
         self.tokens.iter_mut().for_each(|mut token| {
+            #[cfg(feature = "html")]
+            decode_token_html_entities(&mut token);
+            
             token_to_lowercase(&mut token);
             
             remove_token_digit_and_punctuation(&mut token);
@@ -489,6 +504,21 @@ pub fn remove_tokens_between_delimiters<'a>(tokens: &mut Vec<Cow<'a, str>>, deli
     }
 }
 
+#[cfg(feature = "html")]
+/// Replace HTML encoded entities with their decoded counterpart
+pub fn decode_token_html_entities<'a>(token: &mut Cow<'a, str>) {
+    if token.starts_with('&') && token.ends_with(';') {
+        match htmlescape::decode_html(&token) {
+            Ok(escaped) => {
+                if &escaped != token {
+                    *token = Cow::Owned(escaped);          
+                }
+            },
+            Err(_) => ()
+        };
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -520,5 +550,14 @@ mod tests {
         author.clean();
 
         assert_eq!(author.tokens(), &vec!["john", "w", "doe"].into_iter().map(|e| Cow::Borrowed(e)).collect::<Vec<Cow<str>>>());
+    }
+
+    #[test]
+    #[cfg(feature = "html")]
+    fn test_decode_token_html_entities() {
+        let mut token = Cow::Borrowed("&amp;");
+        decode_token_html_entities(&mut token);
+
+        assert_eq!(token, "&");
     }
 }

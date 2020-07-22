@@ -37,6 +37,7 @@
 //! 
 //! * **stem** : Add stemming capabilities
 //! * **python** : Add bindings with python
+//! * **html** : Add HTML transformation capabilities
 //! 
 
 mod cleaners;
