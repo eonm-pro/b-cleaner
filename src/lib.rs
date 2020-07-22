@@ -7,6 +7,7 @@
 //! [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 //! [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 //! [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)]()
+//! [![Dependabot Status](https://badgen.net/dependabot/eonm-abes/b-cleaner?icon=dependabot)]()
 //! 
 //! B-cleaner is a Rust library dedicated to bibliographical data preprocessing (simplification, normalization). This library is used for preprocessing data in alignement tasks. B-cleaner is designed to have a small memory footprint and high performances.
 //! 
